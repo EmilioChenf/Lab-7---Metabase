@@ -5,8 +5,8 @@ Proyecto reproducible para el **Lab 7: Visualización de Datos** usando PostgreS
 ## Requisitos
 
 - Docker Desktop o Docker Engine con Docker Compose.
-- Puerto `3000` disponible para Metabase.
-- Puerto `5432` disponible para PostgreSQL.
+- Puerto `38741` disponible para Metabase.
+- Puerto `25437` disponible para PostgreSQL.
 
 ## Levantar el ambiente
 
