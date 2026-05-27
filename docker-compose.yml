@@ -32,10 +32,21 @@ services:
     volumes:
       - ./postgres-init:/docker-entrypoint-initdb.d:ro
     command: >
-      sh -c "until psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc
-      \"SELECT to_regclass('public.devolucion')\" | grep -q devolucion; do
+      sh -ec "
+      until psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc 'SELECT 1' >/dev/null; do
       sleep 2; done;
-      psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"
+      pedidos=$$(psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc
+      'SELECT COUNT(*) FROM pedido' 2>/dev/null || echo 0);
+      detalles=$$(psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc
+      'SELECT COUNT(*) FROM detalle_pedido' 2>/dev/null || echo 0);
+      if [ \"$$pedidos\" = '0' ] || [ \"$$detalles\" = '0' ]; then
+      echo 'Base RetailMax incompleta; recargando schema y datos.';
+      psql -v ON_ERROR_STOP=1 -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"
+      -f /docker-entrypoint-initdb.d/01_schema.sql;
+      psql -v ON_ERROR_STOP=1 -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"
+      -f /docker-entrypoint-initdb.d/02_data.sql;
+      fi;
+      psql -v ON_ERROR_STOP=1 -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"
       -f /docker-entrypoint-initdb.d/03_ready.sql"
     restart: on-failure:5
     networks:
