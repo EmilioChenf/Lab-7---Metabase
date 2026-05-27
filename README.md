@@ -76,7 +76,8 @@ retailmax-metabase-lab7/
 ├── metabase-provisioning/
 │   └── provision_metabase.py
 ├── docs/
-│   └── informe.md
+│   ├── informe.md
+│   └── informe.pdf
 ├── docker-compose.yml
 ├── .env
 ├── .gitignore
@@ -90,7 +91,7 @@ El dashboard se organiza en 2 tabs:
 - **Desempeño comercial**: ingresos, evolución mensual, tiendas, categorías, ticket promedio y productos top.
 - **Rentabilidad y cliente**: margen, devoluciones, segmentos, frecuencia, inventario bajo mínimo y campañas.
 
-Todos los indicadores se crean como **Native Query / SQL** desde `metabase-provisioning/provision_metabase.py`. La documentación completa de negocio y las consultas SQL están en `docs/informe.md`.
+Todos los indicadores se crean como **Native Query / SQL** desde `metabase-provisioning/provision_metabase.py`. La documentación completa de negocio y las consultas SQL están en `docs/informe.md` y `docs/informe.pdf`.
 
 ## Video de presentación
 
