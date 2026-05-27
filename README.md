@@ -18,7 +18,7 @@ El primer arranque hace lo siguiente:
 
 1. Crea PostgreSQL con la base `retailmax`.
 2. Ejecuta automáticamente `postgres-init/01_schema.sql` y `postgres-init/02_data.sql`.
-3. Levanta Metabase en `http://localhost:3000`.
+3. Levanta Metabase en `http://127.0.0.1:38741`.
 4. Crea el usuario de calificación.
 5. Crea la conexión a PostgreSQL.
 6. Crea el dashboard **RetailMax - Lab 7 Visualización de Datos** con 2 tabs y 12 indicadores SQL.
@@ -28,7 +28,7 @@ Si la consola muestra `retailmax_metabase_setup exited with code 0`, es normal: 
 
 ## Acceso a Metabase
 
-- URL: `http://localhost:3000`
+- URL: `http://127.0.0.1:38741`
 - Correo: `calificar@uvg.edu.gt`
 - Contraseña: `secret123+`
 
