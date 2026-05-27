@@ -105,7 +105,7 @@ Guion sugerido:
 4. Top 3 indicadores: ingresos netos por mes, margen bruto por departamento y tasa de devolución mensual.
 5. Indicador más importante: margen bruto por departamento, porque conecta ventas con costo y permite priorizar líneas rentables.
 
-Enlace del video: **pendiente de pegar aquí**.
+Enlace del video: **https://youtu.be/Q5Xgk5yK7tc**.
 
 ## Notas de evaluación
 
