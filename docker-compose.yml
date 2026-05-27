@@ -13,7 +13,7 @@ services:
       - ./postgres-init:/docker-entrypoint-initdb.d:ro
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "PGPASSWORD=${POSTGRES_PASSWORD} psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -tAc 'SELECT 1 FROM retailmax_init_ready WHERE id = 1' >/dev/null 2>&1"]
       interval: 10s
       timeout: 5s
       retries: 30
@@ -33,7 +33,7 @@ services:
       - ./postgres-init:/docker-entrypoint-initdb.d:ro
     command: >
       sh -ec "
-      until psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc 'SELECT 1' >/dev/null; do
+      until psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc 'SELECT 1' >/dev/null 2>&1; do
       sleep 2; done;
       pedidos=$$(psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc
       'SELECT COUNT(*) FROM pedido' 2>/dev/null || echo 0);

@@ -1,7 +1,7 @@
-2026-05-26 17:29:42 jdbc[6]: exception
+2026-05-26 22:58:11 jdbc[6]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found; SQL statement:
 SELECT COUNT(*) FROM "PUBLIC"."DATABASECHANGELOGLOCK" [42102-214]
-2026-05-26 17:29:45 jdbc[6]: exception
+2026-05-26 22:58:16 jdbc[6]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "T.PERM_VALUE" not found; SQL statement:
 select t."PERM_VALUE" from "PUBLIC"."PERMISSIONS" t where 0=1 [42122-214]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
@@ -109,7 +109,7 @@ select t."PERM_VALUE" from "PUBLIC"."PERMISSIONS" t where 0=1 [42122-214]
 	at clojure.lang.AFn.applyToHelper(AFn.java:152)
 	at clojure.lang.RestFn.applyTo(RestFn.java:132)
 	at metabase.bootstrap.main(Unknown Source)
-2026-05-26 17:29:45 jdbc[6]: exception
+2026-05-26 22:58:16 jdbc[6]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "T.PERM_TYPE" not found; SQL statement:
 select t."PERM_TYPE" from "PUBLIC"."PERMISSIONS" t where 0=1 [42122-214]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
@@ -217,7 +217,7 @@ select t."PERM_TYPE" from "PUBLIC"."PERMISSIONS" t where 0=1 [42122-214]
 	at clojure.lang.AFn.applyToHelper(AFn.java:152)
 	at clojure.lang.RestFn.applyTo(RestFn.java:132)
 	at metabase.bootstrap.main(Unknown Source)
-2026-05-26 17:29:45 jdbc[6]: exception
+2026-05-26 22:58:16 jdbc[6]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "T.COLLECTION_ID" not found; SQL statement:
 select t."COLLECTION_ID" from "PUBLIC"."PERMISSIONS" t where 0=1 [42122-214]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
@@ -325,7 +325,7 @@ select t."COLLECTION_ID" from "PUBLIC"."PERMISSIONS" t where 0=1 [42122-214]
 	at clojure.lang.AFn.applyToHelper(AFn.java:152)
 	at clojure.lang.RestFn.applyTo(RestFn.java:132)
 	at metabase.bootstrap.main(Unknown Source)
-2026-05-26 17:29:46 jdbc[6]: exception
+2026-05-26 22:58:18 jdbc[6]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "T.IS_ATTACHED_DWH" not found; SQL statement:
 select t."IS_ATTACHED_DWH" from "PUBLIC"."METABASE_DATABASE" t where 0=1 [42122-214]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)

@@ -254,7 +254,7 @@ def request(method, path, token=None, payload=None, retries=1):
 
 
 def wait_for_metabase():
-    for _ in range(90):
+    for _ in range(300):
         try:
             request("GET", "/api/health")
             return
@@ -290,6 +290,7 @@ def setup_or_login():
                     "user": os.environ["POSTGRES_USER"],
                     "password": os.environ["POSTGRES_PASSWORD"],
                     "ssl": False,
+                    "ssl-mode": "disable",
                 },
             },
         }
@@ -319,6 +320,7 @@ def get_database_id(token):
             "user": os.environ["POSTGRES_USER"],
             "password": os.environ["POSTGRES_PASSWORD"],
             "ssl": False,
+            "ssl-mode": "disable",
         },
         "is_full_sync": True,
     }

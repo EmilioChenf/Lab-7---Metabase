@@ -11,6 +11,7 @@ temp/
 __pycache__/
 *.pyc
 metabase-data.bak-*/
+metabase-data-corrupt-backup/
 
 # Datos runtime de PostgreSQL administrados por Docker
 postgres-data/
