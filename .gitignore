@@ -8,6 +8,9 @@ Thumbs.db
 *.log
 tmp/
 temp/
+__pycache__/
+*.pyc
+metabase-data.bak-*/
 
 # Datos runtime de PostgreSQL administrados por Docker
 postgres-data/
