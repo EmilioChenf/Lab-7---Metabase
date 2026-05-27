@@ -1,0 +1,98 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: retailmax_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      # PostgreSQL ejecuta estos scripts solo cuando el volumen de datos se crea por primera vez.
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks:
+      - retailmax_net
+
+  postgres-ready:
+    image: postgres:16
+    container_name: retailmax_postgres_ready
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+    command: >
+      sh -c "until psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -tAc
+      \"SELECT to_regclass('public.devolucion')\" | grep -q devolucion; do
+      sleep 2; done;
+      psql -h postgres -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"
+      -f /docker-entrypoint-initdb.d/03_ready.sql"
+    restart: on-failure:5
+    networks:
+      - retailmax_net
+
+  metabase:
+    image: metabase/metabase:v0.50.31
+    container_name: retailmax_metabase
+    restart: unless-stopped
+    depends_on:
+      postgres-ready:
+        condition: service_completed_successfully
+    environment:
+      MB_DB_TYPE: h2
+      MB_DB_FILE: /metabase-data/metabase
+      JAVA_TIMEZONE: ${JAVA_TIMEZONE}
+      JAVA_OPTS: "-Xms128m -Xmx768m"
+    ports:
+      - "${METABASE_PORT}:3000"
+    volumes:
+      # H2 guarda usuarios, preguntas, tabs y dashboard en esta carpeta local.
+      - ./metabase-data:/metabase-data
+    networks:
+      - retailmax_net
+
+  metabase-setup:
+    image: python:3.12-alpine
+    container_name: retailmax_metabase_setup
+    depends_on:
+      postgres-ready:
+        condition: service_completed_successfully
+      metabase:
+        condition: service_started
+    environment:
+      MB_URL: http://metabase:3000
+      MB_ADMIN_EMAIL: ${MB_ADMIN_EMAIL}
+      MB_ADMIN_PASSWORD: ${MB_ADMIN_PASSWORD}
+      MB_ADMIN_FIRST_NAME: ${MB_ADMIN_FIRST_NAME}
+      MB_ADMIN_LAST_NAME: ${MB_ADMIN_LAST_NAME}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./metabase-provisioning:/app:ro
+      - ./metabase-data:/metabase-data
+    command: ["python", "/app/provision_metabase.py"]
+    restart: on-failure:5
+    networks:
+      - retailmax_net
+
+volumes:
+  postgres-data:
+
+networks:
+  retailmax_net:
+    driver: bridge
