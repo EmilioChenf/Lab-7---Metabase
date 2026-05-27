@@ -1,0 +1,747 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R] /Count 7 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2211 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+(INFORME LAB 7 - RETAILMAX) Tj
+T*
+() Tj
+T*
+(Área de negocio elegida: **Ventas y Rentabilidad Comercial**.) Tj
+T*
+() Tj
+T*
+(La base RetailMax permite analizar el ciclo comercial completo: pedidos, detalle de venta,) Tj
+T*
+(productos, categorías, clientes, tiendas, inventario, devoluciones y campañas. El dashboard se) Tj
+T*
+(construye con 2 tabs y 12 indicadores, todos mediante **Native Query / SQL** en Metabase.) Tj
+T*
+() Tj
+T*
+(Tab 1: Desempeño comercial) Tj
+T*
+() Tj
+T*
+(1. Ingresos netos totales) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Ingresos netos totales.) Tj
+T*
+(- **Qué representa en términos de negocio:** Valor total vendido en pedidos completados,) Tj
+T*
+(aplicando descuentos por línea.) Tj
+T*
+(- **Por qué es importante para el área:** Resume el tamaño del negocio y sirve como métrica) Tj
+T*
+(principal para evaluar desempeño comercial.) Tj
+T*
+(- **Visualización usada y por qué:** Tarjeta KPI, porque es un único valor ejecutivo.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 2\) AS) Tj
+T*
+(ingresos_netos) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(WHERE p.estado = 'completado';) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(2. Ingresos netos por mes) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Ingresos netos por mes.) Tj
+T*
+(- **Qué representa en términos de negocio:** Evolución mensual de los ingresos netos.) Tj
+T*
+(- **Por qué es importante para el área:** Permite detectar crecimiento, caídas y estacionalidad.) Tj
+T*
+(- **Visualización usada y por qué:** Línea temporal, porque muestra tendencias en el tiempo.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    DATE_TRUNC\('month', p.fecha\)::date AS mes,) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 2\) AS) Tj
+T*
+(ingresos_netos) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+T*
+(GROUP BY mes) Tj
+T*
+(ORDER BY mes;) Tj
+T*
+() Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 2013 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+() Tj
+T*
+(3. Ingresos por tienda) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Ingresos por tienda.) Tj
+T*
+(- **Qué representa en términos de negocio:** Contribución de cada tienda a los ingresos netos.) Tj
+T*
+(- **Por qué es importante para el área:** Ayuda a comparar sucursales y priorizar acciones) Tj
+T*
+(comerciales.) Tj
+T*
+(- **Visualización usada y por qué:** Gráfico de barras, porque facilita comparar tiendas.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    t.nombre AS tienda,) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 2\) AS) Tj
+T*
+(ingresos_netos) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN tienda t ON t.id_tienda = p.id_tienda) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+T*
+(GROUP BY t.nombre) Tj
+T*
+(ORDER BY ingresos_netos DESC;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(4. Ingresos por categoría) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Ingresos por categoría.) Tj
+T*
+(- **Qué representa en términos de negocio:** Ventas netas generadas por cada categoría de) Tj
+T*
+(producto.) Tj
+T*
+(- **Por qué es importante para el área:** Identifica qué categorías sostienen el ingreso y) Tj
+T*
+(cuáles requieren impulso.) Tj
+T*
+(- **Visualización usada y por qué:** Gráfico de barras, porque compara categorías de forma) Tj
+T*
+(clara.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    c.nombre AS categoria,) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 2\) AS) Tj
+T*
+(ingresos_netos) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(JOIN producto pr ON pr.id_producto = dp.id_producto) Tj
+T*
+(JOIN categoria c ON c.id_categoria = pr.id_categoria) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+T*
+(GROUP BY c.nombre) Tj
+T*
+(ORDER BY ingresos_netos DESC;) Tj
+T*
+() Tj
+T*
+() Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 2083 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+(5. Ticket promedio por canal) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Ticket promedio por canal.) Tj
+T*
+(- **Qué representa en términos de negocio:** Monto promedio por pedido completado en tienda y) Tj
+T*
+(online.) Tj
+T*
+(- **Por qué es importante para el área:** Permite comparar la calidad económica de cada canal.) Tj
+T*
+(- **Visualización usada y por qué:** Gráfico de barras, porque compara dos canales directamente.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(WITH venta_pedido AS \() Tj
+T*
+(    SELECT) Tj
+T*
+(        p.id_pedido,) Tj
+T*
+(        p.canal,) Tj
+T*
+(        SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\) AS total_pedido) Tj
+T*
+(    FROM pedido p) Tj
+T*
+(    JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(    WHERE p.estado = 'completado') Tj
+T*
+(    GROUP BY p.id_pedido, p.canal) Tj
+T*
+(\)) Tj
+T*
+(SELECT) Tj
+T*
+(    canal,) Tj
+T*
+(    ROUND\(AVG\(total_pedido\), 2\) AS ticket_promedio) Tj
+T*
+(FROM venta_pedido) Tj
+T*
+(GROUP BY canal) Tj
+T*
+(ORDER BY ticket_promedio DESC;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(6. Top 10 productos por ingresos) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Top 10 productos por ingresos.) Tj
+T*
+(- **Qué representa en términos de negocio:** Productos que más ingresos netos generan.) Tj
+T*
+(- **Por qué es importante para el área:** Ayuda a proteger inventario clave y priorizar) Tj
+T*
+(promociones.) Tj
+T*
+(- **Visualización usada y por qué:** Tabla, porque muestra producto, unidades e ingresos con) Tj
+T*
+(precisión.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    pr.nombre AS producto,) Tj
+T*
+(    SUM\(dp.cantidad\) AS unidades_vendidas,) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 2\) AS) Tj
+T*
+(ingresos_netos) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(JOIN producto pr ON pr.id_producto = dp.id_producto) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 2146 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+(GROUP BY pr.nombre) Tj
+T*
+(ORDER BY ingresos_netos DESC) Tj
+T*
+(LIMIT 10;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(Tab 2: Rentabilidad y cliente) Tj
+T*
+() Tj
+T*
+(7. Margen bruto por departamento) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Margen bruto por departamento.) Tj
+T*
+(- **Qué representa en términos de negocio:** Ganancia bruta estimada por departamento,) Tj
+T*
+(descontando costo unitario del producto.) Tj
+T*
+(- **Por qué es importante para el área:** Muestra qué líneas no solo venden más, sino cuáles) Tj
+T*
+(dejan más margen.) Tj
+T*
+(- **Visualización usada y por qué:** Gráfico de barras, porque compara departamentos por) Tj
+T*
+(rentabilidad.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    c.departamento,) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * \(\(dp.precio_unitario * \(1 - dp.descuento / 100.0\)\) -) Tj
+T*
+(pr.precio_costo\)\), 2\) AS margen_bruto,) Tj
+T*
+(    ROUND\() Tj
+T*
+(        100.0 * SUM\(dp.cantidad * \(\(dp.precio_unitario * \(1 - dp.descuento / 100.0\)\) -) Tj
+T*
+(pr.precio_costo\)\)) Tj
+T*
+(        / NULLIF\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 0\),) Tj
+T*
+(        2) Tj
+T*
+(    \) AS margen_porcentaje) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(JOIN producto pr ON pr.id_producto = dp.id_producto) Tj
+T*
+(JOIN categoria c ON c.id_categoria = pr.id_categoria) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+T*
+(GROUP BY c.departamento) Tj
+T*
+(ORDER BY margen_bruto DESC;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(8. Tasa de devolución mensual) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Tasa de devolución mensual.) Tj
+T*
+(- **Qué representa en términos de negocio:** Porcentaje del ingreso mensual comprometido por) Tj
+T*
+(reembolsos.) Tj
+T*
+(- **Por qué es importante para el área:** Señala problemas de calidad, logística o satisfacción) Tj
+T*
+(del cliente.) Tj
+T*
+(- **Visualización usada y por qué:** Línea temporal, porque muestra cambios mensuales del) Tj
+T*
+(riesgo de devolución.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 1952 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+() Tj
+T*
+(SQL:) Tj
+T*
+(WITH ventas AS \() Tj
+T*
+(    SELECT) Tj
+T*
+(        DATE_TRUNC\('month', p.fecha\)::date AS mes,) Tj
+T*
+(        SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\) AS ingresos_netos) Tj
+T*
+(    FROM pedido p) Tj
+T*
+(    JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(    WHERE p.estado IN \('completado', 'devuelto'\)) Tj
+T*
+(    GROUP BY mes) Tj
+T*
+(\),) Tj
+T*
+(devoluciones AS \() Tj
+T*
+(    SELECT) Tj
+T*
+(        DATE_TRUNC\('month', d.fecha\)::date AS mes,) Tj
+T*
+(        SUM\(d.monto_reembolso\) AS monto_reembolsado) Tj
+T*
+(    FROM devolucion d) Tj
+T*
+(    GROUP BY mes) Tj
+T*
+(\)) Tj
+T*
+(SELECT) Tj
+T*
+(    v.mes,) Tj
+T*
+(    ROUND\(COALESCE\(d.monto_reembolsado, 0\), 2\) AS monto_reembolsado,) Tj
+T*
+(    ROUND\(100.0 * COALESCE\(d.monto_reembolsado, 0\) / NULLIF\(v.ingresos_netos, 0\), 2\) AS) Tj
+T*
+(tasa_devolucion_porcentaje) Tj
+T*
+(FROM ventas v) Tj
+T*
+(LEFT JOIN devoluciones d ON d.mes = v.mes) Tj
+T*
+(ORDER BY v.mes;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(9. Ingresos por segmento de cliente) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Ingresos por segmento de cliente.) Tj
+T*
+(- **Qué representa en términos de negocio:** Distribución del ingreso entre clientes VIP,) Tj
+T*
+(regulares y nuevos.) Tj
+T*
+(- **Por qué es importante para el área:** Ayuda a decidir estrategias de retención y) Tj
+T*
+(adquisición.) Tj
+T*
+(- **Visualización usada y por qué:** Pie chart, porque muestra participación relativa por) Tj
+T*
+(segmento.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    cl.segmento,) Tj
+T*
+(    ROUND\(SUM\(dp.cantidad * dp.precio_unitario * \(1 - dp.descuento / 100.0\)\), 2\) AS) Tj
+T*
+(ingresos_netos) Tj
+T*
+(FROM pedido p) Tj
+T*
+(JOIN cliente cl ON cl.id_cliente = p.id_cliente) Tj
+T*
+(JOIN detalle_pedido dp ON dp.id_pedido = p.id_pedido) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 2050 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+(GROUP BY cl.segmento) Tj
+T*
+(ORDER BY ingresos_netos DESC;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(10. Frecuencia de compra por segmento) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Frecuencia de compra por segmento.) Tj
+T*
+(- **Qué representa en términos de negocio:** Promedio de pedidos completados por cliente en) Tj
+T*
+(cada segmento.) Tj
+T*
+(- **Por qué es importante para el área:** Mide recurrencia y ayuda a identificar segmentos más) Tj
+T*
+(fieles.) Tj
+T*
+(- **Visualización usada y por qué:** Gráfico de barras, porque compara segmentos.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    cl.segmento,) Tj
+T*
+(    COUNT\(DISTINCT p.id_pedido\) AS pedidos_completados,) Tj
+T*
+(    COUNT\(DISTINCT cl.id_cliente\) AS clientes,) Tj
+T*
+(    ROUND\(COUNT\(DISTINCT p.id_pedido\)::numeric / NULLIF\(COUNT\(DISTINCT cl.id_cliente\), 0\), 2\)) Tj
+T*
+(AS pedidos_por_cliente) Tj
+T*
+(FROM cliente cl) Tj
+T*
+(JOIN pedido p ON p.id_cliente = cl.id_cliente) Tj
+T*
+(WHERE p.estado = 'completado') Tj
+T*
+(GROUP BY cl.segmento) Tj
+T*
+(ORDER BY pedidos_por_cliente DESC;) Tj
+T*
+() Tj
+T*
+() Tj
+T*
+(11. Productos bajo stock mínimo por tienda) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Productos bajo stock mínimo por tienda.) Tj
+T*
+(- **Qué representa en términos de negocio:** Cantidad de productos cuyo stock actual está por) Tj
+T*
+(debajo del mínimo definido.) Tj
+T*
+(- **Por qué es importante para el área:** Reduce quiebres de stock y protege ventas futuras.) Tj
+T*
+(- **Visualización usada y por qué:** Gráfico de barras, porque prioriza tiendas con mayor) Tj
+T*
+(riesgo operativo.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    t.nombre AS tienda,) Tj
+T*
+(    COUNT\(*\) AS productos_bajo_minimo) Tj
+T*
+(FROM inventario i) Tj
+T*
+(JOIN tienda t ON t.id_tienda = i.id_tienda) Tj
+T*
+(WHERE i.stock_actual < i.stock_minimo) Tj
+T*
+(GROUP BY t.nombre) Tj
+T*
+(ORDER BY productos_bajo_minimo DESC;) Tj
+T*
+() Tj
+ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 1255 >>
+stream
+BT
+/F1 9 Tf
+50 780 Td
+12 TL
+() Tj
+T*
+(12. Eficiencia de campañas por tipo) Tj
+T*
+() Tj
+T*
+(- **Nombre del indicador:** Eficiencia de campañas por tipo.) Tj
+T*
+(- **Qué representa en términos de negocio:** Clientes impactados, respuestas, tasa de respuesta) Tj
+T*
+(y costo por respuesta por tipo de campaña.) Tj
+T*
+(- **Por qué es importante para el área:** Permite comparar tácticas comerciales y reasignar) Tj
+T*
+(presupuesto.) Tj
+T*
+(- **Visualización usada y por qué:** Tabla, porque combina varias métricas para cada tipo de) Tj
+T*
+(campaña.) Tj
+T*
+(- **Consulta SQL completa usada en Metabase:**) Tj
+T*
+() Tj
+T*
+(SQL:) Tj
+T*
+(SELECT) Tj
+T*
+(    ca.tipo,) Tj
+T*
+(    COUNT\(*\) AS clientes_impactados,) Tj
+T*
+(    SUM\(CASE WHEN cc.respondio THEN 1 ELSE 0 END\) AS respuestas,) Tj
+T*
+(    ROUND\(100.0 * SUM\(CASE WHEN cc.respondio THEN 1 ELSE 0 END\) / NULLIF\(COUNT\(*\), 0\), 2\) AS) Tj
+T*
+(tasa_respuesta_porcentaje,) Tj
+T*
+(    ROUND\(SUM\(ca.presupuesto\) / NULLIF\(SUM\(CASE WHEN cc.respondio THEN 1 ELSE 0 END\), 0\), 2\) AS) Tj
+T*
+(costo_por_respuesta) Tj
+T*
+(FROM campana ca) Tj
+T*
+(JOIN campana_cliente cc ON cc.id_campana = ca.id_campana) Tj
+T*
+(GROUP BY ca.tipo) Tj
+T*
+(ORDER BY tasa_respuesta_porcentaje DESC;) Tj
+T*
+() Tj
+ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 16 0 R >>
+endobj
+xref
+0 18
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000155 00000 n 
+0000000225 00000 n 
+0000002488 00000 n 
+0000002614 00000 n 
+0000004679 00000 n 
+0000004805 00000 n 
+0000006940 00000 n 
+0000007066 00000 n 
+0000009265 00000 n 
+0000009393 00000 n 
+0000011398 00000 n 
+0000011526 00000 n 
+0000013629 00000 n 
+0000013757 00000 n 
+0000015065 00000 n 
+trailer
+<< /Size 18 /Root 1 0 R >>
+startxref
+15193
+%%EOF
