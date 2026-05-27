@@ -69,9 +69,10 @@ docker compose up
 retailmax-metabase-lab7/
 ├── postgres-init/
 │   ├── 01_schema.sql
-│   └── 02_data.sql
+│   ├── 02_data.sql
+│   └── 03_ready.sql
 ├── metabase-data/
-│   └── .gitkeep
+│   └── metabase/
 ├── metabase-provisioning/
 │   └── provision_metabase.py
 ├── docs/
