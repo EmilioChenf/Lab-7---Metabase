@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:16
-    container_name: retailmax_postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -23,7 +22,6 @@ services:
 
   postgres-ready:
     image: postgres:16
-    container_name: retailmax_postgres_ready
     depends_on:
       postgres:
         condition: service_healthy
@@ -45,7 +43,6 @@ services:
 
   metabase:
     image: metabase/metabase:v0.50.31
-    container_name: retailmax_metabase
     restart: unless-stopped
     depends_on:
       postgres-ready:
@@ -65,7 +62,6 @@ services:
 
   metabase-setup:
     image: python:3.12-alpine
-    container_name: retailmax_metabase_setup
     depends_on:
       postgres-ready:
         condition: service_completed_successfully
